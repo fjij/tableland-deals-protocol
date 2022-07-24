@@ -1,4 +1,5 @@
-import { serve } from "https://deno.land/std@0.140.0/http/server.ts";
+import { Application, Router, send } from "https://deno.land/x/oak/mod.ts";
+import { oakCors } from "https://deno.land/x/cors/mod.ts";
 
 const Authorization = Deno.env.get("NFTPORT_API_KEY") || "";
 
@@ -17,17 +18,16 @@ async function upload(data: string): Promise<string> {
   return result["ipfs_url"];
 }
 
-async function handler(req: Request) {
-  if (req.method !== "PUT") {
-    throw new Error("404");
-  }
-  const { data } = await req.json();
+const router = new Router();
+router.put("/", async (context) => {
+  const { data } = await context.request.body({ type: "json" }).value;
   const url = await upload(data);
-  const body = JSON.stringify({ url }, null, 2);
-  console.log(body);
-  return new Response(body, {
-    headers: { "content-type": "application/json; charset=utf-8" },
-  });
-}
+  context.response.body = { url };
+});
 
-serve(handler);
+const app = new Application();
+app.use(oakCors()); // Enable CORS for All Routes
+app.use(router.routes());
+
+console.info("CORS-enabled web server listening on port 8000");
+await app.listen({ port: 8000 });
