@@ -14,6 +14,6 @@ These rows can be traded atomically with the Tableland Deals Protocol.
 
 ## Tables
 
-| Chain           | Chain ID  | Table ID | Schema                                      | Policy                                |
-| --------------- | --------- | -------- | ------------------------------------------- | ------------------------------------- |
-| Polygon Mumbai  | 80001     | 622      | `name text, owner text, primary key (name)` | allow all as long as `owner = caller` |
+| Chain           | Chain ID  | Table ID | Table Name       |
+| --------------- | --------- | -------- | ---------------- |
+| Polygon Mumbai  | 80001     | 625      | `demo_80001_625` |

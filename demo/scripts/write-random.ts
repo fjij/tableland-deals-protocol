@@ -13,14 +13,12 @@ async function main() {
     chain: "polygon-mumbai",
     signer,
   });
-  const { name } = await tableland.create(
-    "id int, owner text, primary key (id)",
-    "demo"
+  const name = "demo_80001_625";
+  const id = Math.floor(Math.random() * 10000);
+  const owner = signer.address;
+  await tableland.write(
+    `INSERT INTO ${name} (id, owner) VALUES (${id}, '${owner}');`
   );
-  if (!name) {
-    throw new Error("No name returned");
-  }
-  console.log("Table created with name:", name);
 }
 
 main().catch((error) => {
