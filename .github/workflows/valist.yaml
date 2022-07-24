@@ -27,4 +27,4 @@ jobs:
           account: fjij
           project: hackfs2022
           release: ${{ github.sha }}
-          path: '/build'
+          path: './build'
