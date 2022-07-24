@@ -1,0 +1,27 @@
+name: Valist Publish
+on:
+  push:
+    branches:
+      - main
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Clone repository
+        uses: actions/checkout@v3
+      - name: Use Node.js 16.x
+        uses: actions/setup-node@v2
+        with:
+          node-version: 16.x
+      - name: Install dependencies
+        run: yarn
+      - name: Generate build
+        run: yarn build
+      - name: Publish to valist
+        uses: valist-io/valist-github-action@v2.4.0
+        with:
+          private-key: ${{ secrets.PRIVATE_KEY }}
+          account: fjij
+          project: hackfs2022
+          release: ${{ github.sha }}
+          path: 'build'
